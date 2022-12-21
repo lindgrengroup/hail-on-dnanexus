@@ -4,7 +4,16 @@
   "summary": "hail-on-dnanexus",
   "dxapi": "1.0.0",
   "version": "0.0.1",
-  "inputSpec": [],
+  "inputSpec": [
+    {
+      "name": "python_hail_script",
+      "label": "Python Hail Script",
+      "help": "Python script to execute in place of jupyter lab",
+      "class": "file",
+      "optional": true,
+      "patterns": ["*.py"]	
+    }
+  ],
   "outputSpec": [],
   "httpsApp": {
       "shared_access":"NONE",
@@ -18,6 +27,9 @@
         "hours": 48
       }
     },
+    "execDepends" : [
+      {"name": "fuse"}
+    ],
     "interpreter": "bash",
     "file": "src/hail-on-dnanexus.sh",
     "distribution": "Ubuntu",
@@ -28,6 +40,7 @@
     "network": [
       "*"
     ],
+    "allProjects": "VIEW",
     "project": "CONTRIBUTE"
   },
   "regionalOptions": {
