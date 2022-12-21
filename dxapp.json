@@ -1,0 +1,48 @@
+{
+  "name": "hail-on-dnanexus",
+  "title": "hail-on-dnanexus",
+  "summary": "hail-on-dnanexus",
+  "dxapi": "1.0.0",
+  "version": "0.0.1",
+  "inputSpec": [],
+  "outputSpec": [],
+  "httpsApp": {
+      "shared_access":"NONE",
+      "ports": [
+        8081,443,8080
+      ]
+  },
+  "runSpec": {
+    "timeoutPolicy": {
+      "*": {
+        "hours": 48
+      }
+    },
+    "interpreter": "bash",
+    "file": "src/hail-on-dnanexus.sh",
+    "distribution": "Ubuntu",
+    "release": "20.04",
+    "version": "0"
+  },
+  "access": {
+    "network": [
+      "*"
+    ],
+    "project": "CONTRIBUTE"
+  },
+  "regionalOptions": {
+    "aws:eu-west-2": {
+      "systemRequirements": {
+        "*": {
+          "instanceType": "mem1_ssd1_v2_x8",
+	  "clusterSpec": {
+            "type": "dxspark",
+	    "version": "3.2.0",
+	    "initialInstanceCount": 3,
+	    "bootStrapScript":"src/startup.sh"
+          }
+        }
+      }
+    }
+  }
+}
