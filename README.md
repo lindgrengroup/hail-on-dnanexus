@@ -14,7 +14,11 @@ dx build hail-on-dnanexus -f
 ```
 dx run hail-on-dnanexus
 ```
-After around 5 minutes after running the app the Jupyter Lab link will be accessible through the DNAnexus monitor page. Once initialised the Spark control panel can be accessed from https://${JOBID}.dnanexus.cloud:8081/jobs
+- After around 5 minutes after running the app the Jupyter Lab link will be accessible through the DNAnexus monitor page. Once initialised the Spark control panel can be accessed from https://${JOBID}.dnanexus.cloud:8081/jobs.
+
+- Once in the Jupyter lab the following extra code is required to get full read/write functionality: https://discuss.hail.is/t/how-should-i-use-hail-on-the-dnanexus-rap/2277
+
+- DNAnexus files can be directly accessed with the prefix "file:///mnt/project/".
 
 ## Features
 - __Hail 0.2.107 (latest as of 21/12/22)__
@@ -22,4 +26,4 @@ After around 5 minutes after running the app the Jupyter Lab link will be access
 
 ## TODO
 - Automatically create latest Hail builds on Spark 3.2.0 for usage in the app.
-- Allow non-interactive execution of Hail Python script.
+- Allow non-interactive execution of a Hail Python script.
