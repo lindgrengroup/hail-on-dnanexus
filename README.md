@@ -25,5 +25,6 @@ dx run hail-on-dnanexus
 - Spark 3.2.0
 
 ## TODO
+- Containerise hail+jupyterlab with automativc builds as below
 - Automatically create latest Hail builds on Spark 3.2.0 for usage in the app.
 - Allow non-interactive execution of a Hail Python script.
