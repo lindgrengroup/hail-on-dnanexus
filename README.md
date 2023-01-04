@@ -22,7 +22,7 @@ dx run hail-on-dnanexus
 
 ## Inputs
 - Python Script (optional) - app can execute a hail script instead of an interactive notebook.
-- Bash Script - provided string will be executed before main computation, useful for passing batch parameters.
+- Bash Script (optional) - provided string will be executed before main computation, useful for passing batch parameters.
 
 ## Features
 - __Hail 0.2.107 (latest as of 21/12/22)__
