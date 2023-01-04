@@ -12,6 +12,14 @@
       "class": "file",
       "optional": true,
       "patterns": ["*.py"]	
+    },
+    {
+      "name": "bash_script",
+      "label": "Bash Script",
+      "help": "Bash script to execute prior to computation",
+      "class": "string",
+      "optional": true,
+      "patterns": ["*"]	
     }
   ],
   "outputSpec": [],
@@ -47,11 +55,11 @@
     "aws:eu-west-2": {
       "systemRequirements": {
         "*": {
-          "instanceType": "mem1_ssd1_v2_x8",
+          "instanceType": "mem3_ssd1_v2_x8",
 	  "clusterSpec": {
             "type": "dxspark",
 	    "version": "3.2.0",
-	    "initialInstanceCount": 3,
+	    "initialInstanceCount": 48,
 	    "bootStrapScript":"src/startup.sh"
           }
         }

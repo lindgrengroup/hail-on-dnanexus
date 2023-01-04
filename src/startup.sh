@@ -24,5 +24,7 @@ else
 fi
 echo "Mounted $DX_PROJECT_CONTEXT_ID in $MOUNTDIR/project"
 
+apt-get install libopenblas liblapack3
+
 /cluster/dx-cluster.sh hdfs-enable-dnax
 

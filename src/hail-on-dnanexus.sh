@@ -1,8 +1,8 @@
 main() {
 	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
-	
 	start=`date +%s`
-		
+	
+	# Directly build HAIL - this takes ~2 mins but will allow automatic version updates without much		
 	#apt-get install libopenblas-dev liblapack-dev liblz4-dev -y
 	#git clone https://github.com/hail-is/hail.git
 	#cd hail/hail
@@ -10,6 +10,7 @@ main() {
 	#sed -i 's/check-pip-lockfiles/check-pip-lockfile/g' Makefile
 	#make install-on-cluster HAIL_COMPILE_NATIVES=1 SCALA_VERSION=2.12.15 SPARK_VERSION=3.2.0
 	
+	# Install prebuilt python wheel for hail
 	sed '/^pyspark/d' /pinned-requirements.txt | grep -v -e '^[[:space:]]*#' -e '^$$' | tr '\n' '\0' | xargs -0 pip install --ignore-installed -U
         pip uninstall -y hail
         pip install --ignore-installed /hail-0.2.107-py3-none-any.whl --no-deps
@@ -25,15 +26,14 @@ main() {
 	source /cluster/dx-cluster.environment
 	export PYTHONPATH=":$SPARK_HOME/python"
 	export PYTHONPATH="$PYTHONPATH:$(echo "$SPARK_HOME/python/lib/py4j-"*"-src.zip")"
-
-	#pip install dxdata
-
+	
 	HAIL_HOME=/usr/local/lib/python3.8/dist-packages/hail/backend
 	PYSPARK_SUBMIT_STR="\
+		--conf spark.kryoserializer.buffer.max="128m" \
 		--jars $HAIL_HOME/hail-all-spark.jar,/cluster/dnax/jars/dnaxfilesystem-1.0.jar \
 		--conf spark.driver.extraClassPath=/cluster/dnax/jars/dnax-common-1.0.jar:/cluster/dnax/jars/dnanexus-api-0.1.0-SNAPSHOT-jar-with-dependencies.jar:/cluster/dnax/jars/dnaxspark-1.0.jar:$HAIL_HOME/hail-all-spark.jar:/cluster/dnax/jars/dnaxfilesystem-1.0.jar \
 		--conf spark.executor.extraClassPath=/cluster/dnax/jars/dnax-common-1.0.jar:/cluster/dnax/jars/dnanexus-api-0.1.0-SNAPSHOT-jar-with-dependencies.jar:/cluster/dnax/jars/dnaxspark-1.0.jar:$HAIL_HOME/hail-all-spark.jar:/cluster/dnax/jars/dnaxfilesystem-1.0.jar \
-	--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
+		--conf spark.serializer=org.apache.spark.serializer.KryoSerializer \
 		--conf spark.kryo.registrator=is.hail.kryo.HailKryoRegistrator \
 		--conf spark.executorEnv.PYTHONPATH=$PYTHONPATH"
         LOG_CONFIG_PATH="/cluster/dnax/config/log/log4j-DEBUG.properties"
@@ -50,15 +50,26 @@ main() {
 	export HOME=$MOUNTED_HOME
 	export DX_PUBLIC_HOSTNAME=$(dx describe $DX_JOB_ID --json | jq -r .httpsApp.dns.url)
 
-	pip install jupyterlab
-	jupyter lab --ip=* \
-		--port=443 \
-		--no-browser \
-		--NotebookApp.token='' \
-		--NotebookApp.allow_remote_access=True \
-		--NotebookApp.disable_check_xsrf=True \
-		--allow-root \
-		--log=INFO \
-		--NotebookApp.custom_display_url=$DX_PUBLIC_HOSTNAME
+	if [ -n "$bash_script" ]; then
+	 eval $bash_script
+	else
+	 echo "No bash script detected"
+	fi
+	if [ -n "$python_hail_script" ]; then
+	 dx download "$python_hail_script" -o hail_script.py
+	 python3 hail_script.py 
+	else
+	 pip install jupyterlab
+	 jupyter lab --ip=* \
+	   	 --port=443 \
+		 --no-browser \
+		 --NotebookApp.token='' \
+		 --NotebookApp.allow_remote_access=True \
+		 --NotebookApp.disable_check_xsrf=True \
+		 --allow-root \
+		 --log=INFO \
+		 --NotebookApp.custom_display_url=$DX_PUBLIC_HOSTNAME
+ 	 
+	fi	
 }
 
