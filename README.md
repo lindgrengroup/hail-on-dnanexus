@@ -20,11 +20,15 @@ dx run hail-on-dnanexus
 
 - DNAnexus files can be directly accessed with the prefix "file:///mnt/project/".
 
+## Inputs
+- Python Script (optional) - app can execute a hail script instead of an interactive notebook.
+- Bash Script - provided string will be executed before main computation, useful for passing batch parameters.
+
 ## Features
 - __Hail 0.2.107 (latest as of 21/12/22)__
 - Spark 3.2.0
 
 ## TODO
-- Containerise hail+jupyterlab with automativc builds as below
+- Containerise hail+jupyterlab with automativc builds as below.
 - Automatically create latest Hail builds on Spark 3.2.0 for usage in the app.
 - Allow non-interactive execution of a Hail Python script.
