@@ -1,20 +1,23 @@
 main() {
 	export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/
 	start=`date +%s`
-	
+
 	# Directly build HAIL - this takes ~2 mins but will allow automatic version updates without much		
 	#apt-get install libopenblas-dev liblapack-dev liblz4-dev -y
 	#git clone https://github.com/hail-is/hail.git
 	#cd hail/hail
-	#sed -i 's/$(PIP) install/$(PIP) install --ignore-installed/g' Makefile
+	#sed -i 's/$(PIP) install/$(PIP) install --ignore-installed setuptools==65.7.0/g' Makefile
 	#sed -i 's/check-pip-lockfiles/check-pip-lockfile/g' Makefile
 	#make install-on-cluster HAIL_COMPILE_NATIVES=1 SCALA_VERSION=2.12.15 SPARK_VERSION=3.2.0
 	
 	# Install prebuilt python wheel for hail
-	sed '/^pyspark/d' /pinned-requirements.txt | grep -v -e '^[[:space:]]*#' -e '^$$' | tr '\n' '\0' | xargs -0 pip install --ignore-installed -U
+	curl https://github.com/lindgrengroup/hail-on-dnanexus/releases/download/v0.2.108/hail-0.2.108-py3-none-any.whl --output hail-0.2.108-py3-none-any.whl
+
+	sed '/^pyspark/d' /pinned-requirements.txt | grep -v -e '^[[:space:]]*#' -e '^$$' | tr '\n' '\0' | xargs -0 pip install --ignore-installed -U setuptools==65.7.0
         pip uninstall -y hail
-        pip install --ignore-installed /hail-0.2.107-py3-none-any.whl --no-deps
-        hailctl config set query/backend spark
+        pip install --ignore-installed /hail-0.2.108-py3-none-any.whl --no-deps
+        
+	hailctl config set query/backend spark
 
 	end=`date +%s`
 	echo $((end-start))

@@ -59,7 +59,7 @@
 	  "clusterSpec": {
             "type": "dxspark",
 	    "version": "3.2.0",
-	    "initialInstanceCount": 48,
+	    "initialInstanceCount": 1,
 	    "bootStrapScript":"src/startup.sh"
           }
         }
