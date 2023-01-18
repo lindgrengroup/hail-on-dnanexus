@@ -11,7 +11,7 @@ main() {
 	#make install-on-cluster HAIL_COMPILE_NATIVES=1 SCALA_VERSION=2.12.15 SPARK_VERSION=3.2.0
 	
 	# Install prebuilt python wheel for hail
-	curl https://github.com/lindgrengroup/hail-on-dnanexus/releases/download/v0.2.108/hail-0.2.108-py3-none-any.whl --output hail-0.2.108-py3-none-any.whl
+	wget https://github.com/lindgrengroup/hail-on-dnanexus/releases/download/v0.2.108/hail-0.2.108-py3-none-any.whl
 
 	sed '/^pyspark/d' /pinned-requirements.txt | grep -v -e '^[[:space:]]*#' -e '^$$' | tr '\n' '\0' | xargs -0 pip install --ignore-installed -U setuptools==65.7.0
         pip uninstall -y hail
