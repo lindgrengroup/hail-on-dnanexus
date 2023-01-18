@@ -15,7 +15,7 @@ main() {
 
 	sed '/^pyspark/d' /pinned-requirements.txt | grep -v -e '^[[:space:]]*#' -e '^$$' | tr '\n' '\0' | xargs -0 pip install --ignore-installed -U setuptools==65.7.0
         pip uninstall -y hail
-        pip install --ignore-installed /hail-0.2.108-py3-none-any.whl --no-deps
+        pip install --ignore-installed hail-0.2.108-py3-none-any.whl --no-deps
         
 	hailctl config set query/backend spark
 
