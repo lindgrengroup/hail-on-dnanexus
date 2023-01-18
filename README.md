@@ -25,7 +25,7 @@ dx run hail-on-dnanexus
 - Bash Script (optional) - provided string will be executed before main computation, useful for passing batch parameters.
 
 ## Features
-- __Hail 0.2.107 (latest as of 21/12/22)__
+- __Hail 0.2.108 (latest as of 18/01/23)__
 - Spark 3.2.0
 
 ## TODO
