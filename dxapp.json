@@ -14,6 +14,14 @@
       "patterns": ["*.py"]	
     },
     {
+      "name": "parameters",
+      "label": "Miscellaneous Parameters",
+      "help": "A env var to call within scripts to access data",
+      "class": "string",
+      "optional": true,
+      "patterns": ["*"]	
+    },
+    {
       "name": "bash_script",
       "label": "Bash Script",
       "help": "Bash script to execute prior to computation",
